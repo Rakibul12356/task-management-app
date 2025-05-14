@@ -9,8 +9,10 @@ const AddTaskModal = ({onSave,taskToUpdate}) => {
         "tags":[],
         "isFavorite":false
     })
-  console.log(task)
-  console.log(onSave)
+ 
+
+    const [isAdd,setIsADd]=useState(Object.is(taskToUpdate,null))
+
     const handleChange=(evt)=>{
         evt.preventDefault()
         const name =evt.target.name
@@ -37,7 +39,7 @@ const AddTaskModal = ({onSave,taskToUpdate}) => {
                 <h2
                     className="mb-9 text-center text-2xl font-bold text-white lg:mb-11 lg:text-[28px]"
                 >
-                    Add New Task
+                  {isAdd?  "Add New Task":"Edit Task"}
                 </h2>
 
                 {/**  <!-- inputs --> */}
@@ -107,12 +109,12 @@ const AddTaskModal = ({onSave,taskToUpdate}) => {
                 {/**<!-- inputs ends --> */}
                 <div className="mt-16 flex justify-center lg:mt-20">
                     <button
-                    onClick={()=>{onSave(task)}}
+                    onClick={()=>{onSave(task,isAdd)}}
                         type="submit"
                         className="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
                         
                     >
-                        Create new Task
+                       {isAdd?  "Create New Task":"Update Task"}
                     </button>
                 </div>
             </htmlForm>
