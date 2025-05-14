@@ -1,12 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const AddTaskModal = () => {
+const AddTaskModal = ({onSave,taskToUpdate}) => {
+    const [task ,setTask] = useState(taskToUpdate||{
+         "id":crypto.randomUUID(),
+        "title":"",
+        "description":"",
+        "priority":"",
+        "tags":[],
+        "isFavorite":false
+    })
+  console.log(task)
+  console.log(onSave)
+    const handleChange=(evt)=>{
+        evt.preventDefault()
+        const name =evt.target.name
+        let value = evt.target.value;
+       
+        if(name === 'tags'){
+            value = value.split(",")
+        }
+        setTask( {
+            ...task,
+            [name]:value
+        })
+         
+
+    }
     return (
         <>
         <div className='bg-black opacity-70 h-full w-full z-10 absolute top-0 left-0'>
 
         </div>
-            <form
+            <htmlForm
                 className="mx-auto my-10 w-full max-w-[740px] rounded-xl border border-[#FEFBFB]/[36%] bg-[#191D26] p-9 max-md:px-4 lg:my-20 lg:p-11 z-10 absolute top-1/4 left-1/3"
             >
                 <h2
@@ -19,24 +44,28 @@ const AddTaskModal = () => {
                 <div className="space-y-9 text-white lg:space-y-10">
                     {/** <!-- title --> */}
                     <div className="space-y-2 lg:space-y-3">
-                        <label for="title">Title</label>
+                        <label htmlFor="title">Title</label>
                         <input
                             className="block w-full rounded-md bg-[#2D323F] px-3 py-2.5"
                             type="text"
                             name="title"
                             id="title"
+                            value={task.title}
+                            onChange={handleChange}
                             required
                         />
                     </div>
                     {/**<!-- description --> */}
                     <div className="space-y-2 lg:space-y-3">
-                        <label for="description">Description</label>
+                        <label htmlFor="description">Description</label>
                         <textarea
                             className="block min-h-[120px] w-full rounded-md bg-[#2D323F] px-3 py-2.5 lg:min-h-[180px]"
                             type="text"
                             name="description"
                             id="description"
                             required
+                             value={task.description}
+                            onChange={handleChange}
                         ></textarea>
                     </div>
                     {/**<!-- input group --> */}
@@ -45,28 +74,32 @@ const AddTaskModal = () => {
                     >
                         {/**<!-- tags --> */}
                         <div className="space-y-2 lg:space-y-3">
-                            <label for="tags">Tags</label>
+                            <label htmlFor="tags">Tags</label>
                             <input
                                 className="block w-full rounded-md bg-[#2D323F] px-3 py-2.5"
                                 type="text"
                                 name="tags"
                                 id="tags"
                                 required
+                                 value={task.tags}
+                            onChange={handleChange}
                             />
                         </div>
                         {/**<!-- priority --> */}
                         <div className="space-y-2 lg:space-y-3">
-                            <label for="priority">Priority</label>
+                            <label htmlFor="priority">Priority</label>
                             <select
                                 className="block w-full cursor-pointer rounded-md bg-[#2D323F] px-3 py-2.5"
                                 name="priority"
                                 id="priority"
                                 required
+                                 value={task.priority}
+                            onChange={handleChange}
                             >
                                 <option value="">Select Priority</option>
-                                <option value="low">Low</option>
-                                <option value="medium">Medium</option>
-                                <option value="high">High</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
                             </select>
                         </div>
                     </div>
@@ -74,13 +107,15 @@ const AddTaskModal = () => {
                 {/**<!-- inputs ends --> */}
                 <div className="mt-16 flex justify-center lg:mt-20">
                     <button
+                    onClick={()=>{onSave(task)}}
                         type="submit"
                         className="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
+                        
                     >
                         Create new Task
                     </button>
                 </div>
-            </form>
+            </htmlForm>
 
         </>
     );

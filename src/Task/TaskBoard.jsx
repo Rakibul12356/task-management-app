@@ -13,15 +13,23 @@ export default function TaskBoard() {
         "isFavorite":false,
         "tags":["web","react","js"]
     }
-    const [tasks,setTask] = useState([defaultTask])
+    const [tasks,setTasks] = useState([defaultTask])
     const [showAddModal,setShowAddModal]=useState(false)
-    // const handleAddTAsk =()=>{
-    //     console.log("Add task")
-    // }
+    const [taskToUpdate,setTaskToUpdate]=useState(null)
+    function handleAddTAsk (newTask){
+        
+         setTasks([...tasks,newTask])
+         setShowAddModal(false)
+     }
+     function handleEditTask (task){
+        console.log('edit task')
+        setShowAddModal(true)
+        setTaskToUpdate(task)
+     }
     return (
         <>
             <section className="mb-20" id="tasks">
-                {showAddModal && <AddTaskModal/>}
+                {showAddModal && <AddTaskModal taskToUpdate={taskToUpdate}   onSave={handleAddTAsk}/>}
                 <div className="container">
                    {/** <!-- Search Box --> */}
                    <div className="p-2 flex justify-end">
@@ -32,7 +40,7 @@ export default function TaskBoard() {
                         {/**your task add */}
                         <TaskAction onAddClick={()=>setShowAddModal(true)}/>
                     
-                        <TaskList tasks={tasks}/>
+                        <TaskList tasks={tasks} onEdit={handleEditTask}/>
                     </div>
                 </div>
             </section> 
