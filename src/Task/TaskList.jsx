@@ -2,7 +2,7 @@ import React from 'react';
 import StarIcon from '../svgIcon/StarIcon';
 import { FaStar } from "react-icons/fa";
 import { CiStar } from 'react-icons/ci';
-const TaskList = ({ tasks ,onEdit}) => {
+const TaskList = ({ tasks ,onEdit,onDelete}) => {
 
     console.log(tasks)
     return (
@@ -50,7 +50,9 @@ const TaskList = ({ tasks ,onEdit}) => {
                                 <td className="text-center">{task.priority}</td>
                                 <td>
                                     <div className="flex items-center justify-center space-x-3">
-                                        <button className="text-red-500">Delete</button>
+                                        <button 
+                                        onClick={()=>onDelete(task.id)}
+                                        className="text-red-500">Delete</button>
                                         <button className="text-blue-500" onClick={()=>onEdit(task)}>Edit</button>
                                     </div>
                                 </td>
