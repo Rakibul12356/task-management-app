@@ -2,7 +2,7 @@ import React from 'react';
 import StarIcon from '../svgIcon/StarIcon';
 import { FaStar } from "react-icons/fa";
 import { CiStar } from 'react-icons/ci';
-const TaskList = ({ tasks ,onEdit,onDelete}) => {
+const TaskList = ({ tasks ,onEdit,onDelete,onFav}) => {
 
     console.log(tasks)
     return (
@@ -24,8 +24,8 @@ const TaskList = ({ tasks ,onEdit,onDelete}) => {
                             tasks.map(task => <tr
                                 key={task.id} className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2">
                                 <td>
-                                    <button>
-                                        {task.isFavorite ? <FaStar className='text-yellow-400' /> : <CiStar />}
+                                    <button onClick={()=>onFav(task.id)}>
+                                        {task.isFavorite ? <FaStar className='text-yellow-400 text-2xl' /> : <CiStar className='text-2xl' />}
                                     </button>
 
                                 </td>
