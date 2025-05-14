@@ -3,6 +3,7 @@ import SearchBox from './SearchBox';
 import TaskAction from './TaskAction';
 import TaskList from './TaskList';
 import AddTaskModal from './AddTaskModal';
+import NoTaskFound from './NoTaskFound';
 
 export default function TaskBoard() {
     const defaultTask = {
@@ -13,7 +14,7 @@ export default function TaskBoard() {
         "isFavorite": false,
         "tags": ["web", "react", "js"]
     }
-    const [tasks, setTasks] = useState([defaultTask])
+    const [tasks, setTasks] = useState([])
     const [showAddModal, setShowAddModal] = useState(false)
     const [taskToUpdate, setTaskToUpdate] = useState(null)
     function handleAddEditTAsk(newTask, isAdd) {
@@ -55,6 +56,12 @@ export default function TaskBoard() {
         newTasks[taskIndex].isFavorite=!newTasks[taskIndex].isFavorite;
         setTasks(newTasks)
     }
+    function handleSearch(searchTerm){
+        console.log(searchTerm)
+        const filtered= tasks.filter((task)=>
+        task.title.toLowerCase().includes(searchTerm.toLowerCase()));
+        setTasks([...filtered])
+    }
     return (
         <>
             <section className="mb-20" id="tasks">
@@ -62,14 +69,16 @@ export default function TaskBoard() {
                 <div className="container">
                     {/** <!-- Search Box --> */}
                     <div className="p-2 flex justify-end">
-                        <SearchBox />
+                        <SearchBox onSearch={handleSearch}/>
                     </div>
 
                     <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
                         {/**your task add */}
                         <TaskAction onDeleteAllClick={handleDeleteAll} onAddClick={() => setShowAddModal(true)} />
 
-                        <TaskList tasks={tasks} onFav={handleFav} onEdit={handleEditTask} onDelete={handleDelete} />
+                       {
+                       tasks.length>0?
+                       <TaskList tasks={tasks} onFav={handleFav} onEdit={handleEditTask} onDelete={handleDelete} />:<NoTaskFound/>}
                     </div>
                 </div>
             </section>
